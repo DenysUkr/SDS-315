@@ -1,0 +1,6 @@
+---
+title: "HW 2"
+author: "Denys Osmak"
+date: "2024-01-25"
+output: html_document
+---
