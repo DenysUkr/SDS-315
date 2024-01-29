@@ -41,7 +41,7 @@ We can tell from this graph that the largest majarity of the professors are eval
 ## Part B Use side-by-side boxplots to show the distribution of course evaluation scores by whether or not the professor is a native English speaker
 
 ```{r}
-ggplot(data=pr1Data) + geom_boxplot(aes(x=native, y=eval),binwidth = .1 , fill="red4", col="black") + labs(title="Distribution of Course Evaluation Scores Depending on Native English Speaking Professors", y = "Evaluation Score", x="Native English Speaking Profesor") 
+ggplot(data=pr1Data) + geom_boxplot(aes(x=native, y=eval) , fill="red4", col="black") + labs(title="Distribution of Course Evaluation Scores Depending on Native English Speaking Professors", y = "Evaluation Score", x="Native English Speaking Profesor") 
 
 ```
 
@@ -69,6 +69,15 @@ From the scatter plot there seems to be little to no correlation between beauty 
 # Problem 2
 
 ## Part A a line graph showing average hourly bike rentals (total) across all hours of the day (hr).
+
+```{r}
+# importing data
+pr2Data = read.csv("bikeshare.csv")
+
+# creating lien graph
+
+
+```
 
 ## Part B a faceted line graph showing average bike rentals by hour of the day, faceted according to whether it is a working day (workingday).
 
