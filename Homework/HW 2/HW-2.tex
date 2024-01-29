@@ -1,0 +1,264 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={HW 2},
+  pdfauthor={Denys Osmak},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{HW 2}
+\author{Denys Osmak}
+\date{2024-01-25}
+
+\begin{document}
+\maketitle
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+\hypertarget{part-a-create-a-histogram-to-display-the-overall-data-distribution-of-course-evaluation-scores.}{%
+\subsection{Part A Create a histogram to display the overall data
+distribution of course evaluation
+scores.}\label{part-a-create-a-histogram-to-display-the-overall-data-distribution-of-course-evaluation-scores.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#plot2()}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-b-use-side-by-side-boxplots-to-show-the-distribution-of-course-evaluation-scores-by-whether-or-not-the-professor-is-a-native-english-speaker}{%
+\subsection{Part B Use side-by-side boxplots to show the distribution of
+course evaluation scores by whether or not the professor is a native
+English
+speaker}\label{part-b-use-side-by-side-boxplots-to-show-the-distribution-of-course-evaluation-scores-by-whether-or-not-the-professor-is-a-native-english-speaker}}
+
+\hypertarget{part-c-use-a-faceted-histogram-with-two-rows-to-compare-the-distribution-of-course-evaluation-scores-for-male-and-female-instructors.}{%
+\subsection{Part C Use a faceted histogram with two rows to compare the
+distribution of course evaluation scores for male and female
+instructors.}\label{part-c-use-a-faceted-histogram-with-two-rows-to-compare-the-distribution-of-course-evaluation-scores-for-male-and-female-instructors.}}
+
+\hypertarget{part-d-create-a-scatterplot-to-visualize-the-extent-to-which-there-may-be-an-association-between-the-professors-physical-attractiveness-x-and-their-course-evaluations-y.}{%
+\subsection{Part D Create a scatterplot to visualize the extent to which
+there may be an association between the professor's physical
+attractiveness (x) and their course evaluations
+(y).}\label{part-d-create-a-scatterplot-to-visualize-the-extent-to-which-there-may-be-an-association-between-the-professors-physical-attractiveness-x-and-their-course-evaluations-y.}}
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\hypertarget{part-a-a-line-graph-showing-average-hourly-bike-rentals-total-across-all-hours-of-the-day-hr.}{%
+\subsection{Part A a line graph showing average hourly bike rentals
+(total) across all hours of the day
+(hr).}\label{part-a-a-line-graph-showing-average-hourly-bike-rentals-total-across-all-hours-of-the-day-hr.}}
+
+\hypertarget{part-b-a-faceted-line-graph-showing-average-bike-rentals-by-hour-of-the-day-faceted-according-to-whether-it-is-a-working-day-workingday.}{%
+\subsection{Part B a faceted line graph showing average bike rentals by
+hour of the day, faceted according to whether it is a working day
+(workingday).}\label{part-b-a-faceted-line-graph-showing-average-bike-rentals-by-hour-of-the-day-faceted-according-to-whether-it-is-a-working-day-workingday.}}
+
+\hypertarget{part-c-a-faceted-bar-plot-showing-average-ridership-y-during-the-9-am-hour-by-weather-situation-code-weathersit-x-faceted-according-to-whether-it-is-a-working-day-or-not.-remember-that-you-can-focus-on-a-specific-subset-of-rows-of-a-data-set-using-filter.}{%
+\subsection{Part C a faceted bar plot showing average ridership (y)
+during the 9 AM hour by weather situation code (weathersit, x), faceted
+according to whether it is a working day or not. (Remember that you can
+focus on a specific subset of rows of a data set using
+filter.)}\label{part-c-a-faceted-bar-plot-showing-average-ridership-y-during-the-9-am-hour-by-weather-situation-code-weathersit-x-faceted-according-to-whether-it-is-a-working-day-or-not.-remember-that-you-can-focus-on-a-specific-subset-of-rows-of-a-data-set-using-filter.}}
+
+\hypertarget{problem-3}{%
+\section{Problem 3}\label{problem-3}}
+
+\hypertarget{part-a}{%
+\subsection{Part A}\label{part-a}}
+
+One faceted line graph that plots average boardings by hour of the day,
+day of week, and month. You should facet by day of week. Each facet
+should include three lines of average boardings (y) by hour of theday
+(x), one line for each month and distinguished by color. Give the figure
+an informative captionin which you explain what is shown in the figure
+and also address the following questions, citing evidencefrom the
+figure. Does the hour of peak boardings change from day to day, or is it
+broadly similar acrossdays? Why do you think average boardings on
+Mondays in September look lower, compared to otherdays and months?
+Similarly, why do you think average boardings on Weds/Thurs/Fri in
+Novemberlook lower? (Hint: wrangle first, then plot.)
+
+\hypertarget{part-b}{%
+\subsection{Part B}\label{part-b}}
+
+One faceted scatter plot showing boardings (y) vs.~temperature (x),
+faceted by hour of the day, and with points colored in according to
+whether it is a weekday or weekend. Give the figure an informative
+caption in which you explain what is shown in the figure and also answer
+the following question, citing evidence from the figure. When we hold
+hour of day and weekend status constant, does temperature seem to have a
+noticeable effect on the number of UT students riding the bus?
+
+\hypertarget{problem-4}{%
+\section{Problem 4}\label{problem-4}}
+
+\hypertarget{part-a-1}{%
+\subsection{Part A}\label{part-a-1}}
+
+Make a table of the top 10 most popular songs since 1958, as measured by
+the total number of weeks that a song spent on the Billboard Top 100.
+Note that these data end in week 22 of 2021, so the most popular songs
+of 2021 onwards will not have up-to-the-minute data; please send our
+apologies to The Weeknd.
+
+Your table should have 10 rows and 3 columns: performer, song, and
+count, where count represents the number of weeks that song appeared in
+the Billboard Top 100. Make sure the entries are sorted in descending
+order of the count variable, so that the more popular songs appear at
+the top of the table. Give your table a short caption describing what is
+shown in the table.
+
+(Note: you'll want to use both performer and song in any group\_by
+operations, to account for the fact that multiple unique songs can share
+the same title.)
+
+\hypertarget{part-b-1}{%
+\subsection{Part B}\label{part-b-1}}
+
+Is the ``musical diversity'' of the Billboard Top 100 changing over
+time? Let's find out. We'll measure the musical diversity of given year
+as the number of unique songs that appeared in the Billboard Top 100
+that year. Make a line graph that plots this measure of musical
+diversity over the years. The x axis should show the year, while the y
+axis should show the number of unique songs appearing at any position on
+the Billboard Top 100 chart in any week that year. For this part, please
+filter the data set so that it excludes the years 1958 and 2021, since
+we do not have complete data on either of those years. Give the figure
+an informative caption in which you explain what is shown in the figure
+and comment on any interesting trends you see.
+
+There are number of ways to accomplish the data wrangling here. We offer
+you two hints on two possibilities:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  You could use two distinct sets of data-wrangling steps. The first set
+  of steps would get you a table that counts the number of times that a
+  given song appears on the Top 100 in a given year. The second set of
+  steps operate on the result of the first set of steps; it would count
+  the number of unique songs that appeared on the Top 100 in each year,
+  irrespective of how many times it had appeared.
+\item
+  You could use a single set of data-wrangling steps that combines the
+  length and unique commands.
+\end{enumerate}
+
+\hypertarget{part-c}{%
+\subsection{Part C}\label{part-c}}
+
+Let's define a ``ten-week hit'' as a single song that appeared on the
+Billboard Top 100 for at least ten weeks. There are 19 artists in U.S.
+musical history since 1958 who have had at least 30 songs that were
+``ten-week hits.'' Make a bar plot for these 19 artists, showing how
+many ten-week hits each one had in their musical career. Give the plot
+an informative caption in which you explain what is shown
+
+\hypertarget{part-d}{%
+\subsection{Part D}\label{part-d}}
+
+\end{document}

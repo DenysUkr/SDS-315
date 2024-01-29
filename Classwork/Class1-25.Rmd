@@ -1,0 +1,11 @@
+---
+title: "Class1-25"
+author: "Denys Osmak"
+date: "2024-01-25"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+data = csv.read("olympics_top20.csv")
+```
