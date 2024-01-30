@@ -19,6 +19,8 @@ library(dplyr)
 library(ggplot2)
 library(readr)
 library(stringr)
+library(lubridate)
+library(knitr)
 ```
 
 # Problem 1
@@ -87,11 +89,58 @@ pr2Data = read.csv("bikeshare.csv")
 
 ## Part A
 
-One faceted line graph that plots average boardings by hour of the day, day of week, and month. You should facet by day of week. Each facet should include three lines of average boardings (y) by hour of theday (x), one line for each month and distinguished by color. Give the figure an informative captionin which you explain what is shown in the figure and also address the following questions, citing evidencefrom the figure. Does the hour of peak boardings change from day to day, or is it broadly similar acrossdays? Why do you think average boardings on Mondays in September look lower, compared to otherdays and months? Similarly, why do you think average boardings on Weds/Thurs/Fri in Novemberlook lower? (Hint: wrangle first, then plot.)
+One faceted line graph that plots average boardings by hour of the day, day of week, and month. You should facet by day of week. Each facet should include three lines of average boardings (y) by hour of the day (x), one line for each month and distinguished by color. Give the figure an informative captionin which you explain what is shown in the figure and also address the following questions, citing evidencefrom the figure. Does the hour of peak boardings change from day to day, or is it broadly similar acrossdays? Why do you think average boardings on Mondays in September look lower, compared to otherdays and months? Similarly, why do you think average boardings on Weds/Thurs/Fri in Novemberlook lower? (Hint: wrangle first, then plot.)
+
+```{r}
+
+#importing data
+pr3Data = read.csv("capmetro_UT.csv")
+
+pr3Data = mutate(pr3Data,
+day_of_week = factor(day_of_week,
+levels=c("Mon", "Tue", "Wed","Thu", "Fri", "Sat", "Sun")),
+month = factor(month,
+levels=c("Sep", "Oct","Nov")))
+
+
+# finding the avarage boardings per hour of the day for each month 
+# Nov
+pr3DataN = pr3Data %>% 
+  group_by(day_of_week, hour_of_day) %>%
+  filter(month == "Nov") %>% 
+  mutate(avgBoarding = mean(boarding))
+# Oct 
+pr3DataO = pr3Data %>% 
+  group_by(day_of_week, hour_of_day) %>%
+  filter(month == "Oct") %>% 
+  mutate(avgBoarding = mean(boarding))
+# Sep
+pr3DataS = pr3Data %>% 
+  group_by(day_of_week, hour_of_day) %>%
+  filter(month == "Sep") %>% 
+  mutate(avgBoarding = mean(boarding))
+
+  
+# creating a line graph 
+ggplot() + geom_line(data=pr3DataN, aes(x=hour_of_day, y=avgBoarding, col="November")) + geom_line(data=pr3DataO, aes(x=hour_of_day, y=avgBoarding, col="October")) + geom_line(data=pr3DataS, aes(x=hour_of_day, y=avgBoarding, col="September")) + labs(title="Avarage Hourly Boarding per hour over 3 months", x = "Hour of Day", y="Avarage Boarings") + facet_wrap(vars(day_of_week)) + scale_color_manual(values = c("November" = "red4", "October" = "navy", "September" = "darkgreen"))
+
+
+```
+
+By looking at the graphs, we can tell that there is the peak for boarding for weekdays are around 3-6pm. The weekdays have very similar curves, no matter the day of the week possibly attributed because the buses are primary used by work commuters. Additional, the reason that November might have the lowest is because it is the coldest month. However the reason why September might have the lowest boarding on Mondays might be due to the fact that there was some sort of holiday on Monday of September of 2018, which lowered the avarage hourly boarding.
 
 ## Part B
 
 One faceted scatter plot showing boardings (y) vs. temperature (x), faceted by hour of the day, and with points colored in according to whether it is a weekday or weekend. Give the figure an informative caption in which you explain what is shown in the figure and also answer the following question, citing evidence from the figure. When we hold hour of day and weekend status constant, does temperature seem to have a noticeable effect on the number of UT students riding the bus?
+
+```{r}
+
+ggplot(data=pr3Data) + geom_point( aes(x=boarding, y = temperature, color=weekend)) + labs(title="Avarage Hourly Boarding per hour over 3 months", y = "Temperature (F)", x ="Total Boarings") + facet_wrap(vars(hour_of_day)) 
+
+
+```
+
+There is little to no correlation between the temperature and the transit usage, since there is a completely vertical slope as shown on the graph. Interesting enough the weekends tend to have less ovaral boarding.
 
 # Problem 4
 
@@ -102,6 +151,22 @@ Make a table of the top 10 most popular songs since 1958, as measured by the tot
 Your table should have 10 rows and 3 columns: performer, song, and count, where count represents the number of weeks that song appeared in the Billboard Top 100. Make sure the entries are sorted in descending order of the count variable, so that the more popular songs appear at the top of the table. Give your table a short caption describing what is shown in the table.
 
 (Note: you'll want to use both performer and song in any group_by operations, to account for the fact that multiple unique songs can share the same title.)
+
+```{r}
+
+pr4Data = read.csv("billboard.csv")
+
+# counting the numbers of weeks that all of the song were on bilbord top 100
+
+pr4DataNew = pr4Data %>% 
+  group_by(performer, song) %>%
+  mutate(totalWeeks = max(weeks_on_chart)) %>% 
+  arrange(desc(totalWeeks))
+
+kable(pr4DataNew, caption = "Top Songs")
+```
+
+\
 
 ## Part B
 
