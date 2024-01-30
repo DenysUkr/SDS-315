@@ -160,13 +160,13 @@ pr4Data = read.csv("billboard.csv")
 
 pr4DataNew = pr4Data %>% 
   group_by(performer, song) %>%
-  mutate(totalWeeks = max(weeks_on_chart)) %>% 
+  summarise(totalWeeks = max(weeks_on_chart)) %>% 
   arrange(desc(totalWeeks))
 
-kable(pr4DataNew, caption = "Top Songs")
-```
 
-\
+pr4DataTrimed = head(pr4DataNew, 10)
+kable(pr4DataTrimed, caption = "Top Songs")
+```
 
 ## Part B
 
