@@ -35,7 +35,7 @@ pr1Data = read.csv("profs.csv")
 
 ```
 
-## Part A 
+## Part A
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
 ggplot(data=pr1Data) + geom_histogram(aes(eval),binwidth = .1 , fill="red4", col="black") + labs(title="Distribution of Course Evaluation Scores", x = "Evalation Score")
@@ -44,7 +44,7 @@ ggplot(data=pr1Data) + geom_histogram(aes(eval),binwidth = .1 , fill="red4", col
 
 We can tell from this graph that the largest majarity of the professors are evaluated at around the 4/5 mark. While no professors are marked to be 2/5 and bellow.
 
-## Part B 
+## Part B
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
 ggplot(data=pr1Data) + geom_boxplot(aes(x=native, y=eval) , fill="red4", col="black") + labs(title="Distribution of Course Evaluation Scores Depending on Native English Speaking Professors", y = "Evaluation Score", x="Native English Speaking Profesor") 
@@ -53,7 +53,7 @@ ggplot(data=pr1Data) + geom_boxplot(aes(x=native, y=eval) , fill="red4", col="bl
 
 This box plot shows that there is a significant difference in evaluation scores between professors that are native English speakers vs that are not. From the graph we can see that on avarage a native English speaking professor gets \~ 0.5 higher score then a non native English speaker.
 
-## Part C 
+## Part C
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
 ggplot(data=pr1Data) + geom_histogram(aes(x=eval, y=..density..),binwidth = .1 , fill="red4", col="black") + labs(title="Desity Histograms of Course Evaluation Scores vs Gender", x = "Evalation Score") + facet_wrap(vars(gender))
@@ -62,7 +62,7 @@ ggplot(data=pr1Data) + geom_histogram(aes(x=eval, y=..density..),binwidth = .1 ,
 
 Due to the fact that there seems to be a larger number of male professors, to see the true difference in the distribution of the evaluation score between male and female professors, the charts were normalized. After normalizing the charts it can be seen that while the male and female professors have relativly same evaluation scores, most of them being between 3.5-4.5, there is an abnormal ammount of female professors that are rated 3.5 and male professors at 4.5.
 
-## Part D 
+## Part D
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
 
@@ -74,7 +74,7 @@ From the scatter plot there seems to be little to no correlation between beauty 
 
 # Problem 2
 
-## Part A 
+## Part A
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
 # importing data
@@ -110,7 +110,7 @@ ggplot(pr2DataB) + geom_line(aes(y=avgRentals, x=hr), col="red4") + labs(title="
 
 From the graph we can see that the weekends (identefied as 0) have a much more relaxed curve. This is due to the fact that during the weeked the bikes are used for pleasure rather then for commuting to work.
 
-## Part C 
+## Part C
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
 
@@ -161,6 +161,30 @@ pr3DataS = pr3Data %>%
 # creating a line graph 
 ggplot() + geom_line(data=pr3DataN, aes(x=hour_of_day, y=avgBoarding, col="November")) + geom_line(data=pr3DataO, aes(x=hour_of_day, y=avgBoarding, col="October")) + geom_line(data=pr3DataS, aes(x=hour_of_day, y=avgBoarding, col="September")) + labs(title="Avarage Hourly Boarding per hour over 3 months", x = "Hour of Day", y="Avarage Boarings") + facet_wrap(vars(day_of_week)) + scale_color_manual(values = c("November" = "red4", "October" = "navy", "September" = "darkgreen"))
 
+
+```
+
+```{r}
+########################### TESTING NEW MEATHODS ########################### 
+
+# Tesiting out an all in one solution
+pr3DataTesting = pr3Data %>% 
+  group_by(day_of_week, hour_of_day, month) %>%
+  summarise(avgBoarding = mean(boarding))
+
+
+# creating a line graph 
+ggplot(pr3DataTesting) + geom_line( aes(x=hour_of_day, y=avgBoarding, col="November"))  + labs(title="Avarage Hourly Boarding per hour over 3 months", x = "Hour of Day", y="Avarage Boarings") + facet_wrap(vars(day_of_week)) + scale_color_manual(values = c("November" = "red4", "October" = "navy", "September" = "darkgreen"))
+
+
+ggplot() + geom_line( data=pr3DataN,aes(x=hour_of_day, y=avgBoarding, col="November"))  + labs(title="Avarage Hourly Boarding per hour over 3 months", x = "Hour of Day", y="Avarage Boarings") + facet_wrap(vars(day_of_week)) + scale_color_manual(values = c("November" = "red4", "October" = "navy", "September" = "darkgreen"))
+
+
+
+
+
+
+ggplot() + geom_line(data=filter(pr3DataTesting, month == "Nov"), aes(x=hour_of_day, y=avgBoarding, col="November")) + geom_line(data=filter(pr3DataTesting, month == "Oct"), aes(x=hour_of_day, y=avgBoarding, col="October")) + geom_line(data=filter(pr3DataTesting, month == "Sep"),  aes(x=hour_of_day, y=avgBoarding, col="September")) + labs(title="Avarage Hourly Boarding per hour over 3 months", x = "Hour of Day", y="Avarage Boarings") + facet_wrap(vars(day_of_week)) + scale_color_manual(values = c("November" = "red4", "October" = "navy", "September" = "darkgreen"))
 
 ```
 
