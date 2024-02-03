@@ -1,0 +1,127 @@
+---
+title: "HW3"
+author: "Denys Osmak"
+date: "2024-02-03"
+output: html_document
+---
+
+```{r warning=FALSE, echo=FALSE, message=FALSE}
+library(rvest)
+library(sas7bdat)
+library(tibble)
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(stringr)
+library(lubridate)
+library(knitr)
+library(mosaic)
+```
+
+# Problem 1:
+
+```{r}
+pr1Data = read_csv("creatinine.csv")
+
+ggplot(pr1Data, aes(x=age, y=creatclear)) + geom_point() + geom_smooth(method="lm") + labs( title="Age vs Creatine Level", x="Age", y="Creatine (mL/min)") 
+
+# fitting the data
+pr1Fit =  lm(age ~ creatclear, data = pr1Data)
+coef(pr1Fit)
+
+# prdicting using the model
+predictingData = as.data.frame(55, 40, 60)
+
+predict(pr1Fit, newdata = as.data.frame(c(55,40,60)))
+
+  
+
+```
+
+## A) What creatinine clearance rate should we expect for a 55-year-old? Explain briefly (one or two sentences+ equations) how you determined this.
+
+Using the formula $$ y = 172.283 - 1.085x $$ where y represents the creatine rate and x represents the age. We can plug in 55 for the x and determine that a 55 year old's kidney should produce 112.6 mL of creatine per minute.
+
+## B) How does creatinine clearance rate change with age? (This should be a single number whose units are ml/minute per year.) Explain briefly (one or two sentences) how you determined this
+
+Using the formula $$ y = 172.283 - 1.085x $$ where y represents the creatine rate and x represents the age. We can see that the creating clearance rate decreases by 1.085 mL/min per year.
+
+## C) Whose creatinine clearance rate is healthier (higher) for their age: a 40-year-old with a rate of 135, or a 60-year-old with a rate of 112? Explain briefly (a few sentences + equations) how you determined this.
+
+By pluging in our formula, we predict that the 40 year old will have a creatine clearance rate of 128.883, while his actual rate is 135, meaning that his rate is 6.117 above normal. While we can predict that a 60 year old will have a clearance rate of 107.183, while his actual rate is 112, meaning that his rate is 4.817 above normal. Since the 40 year old's clearance rate residual is higher then the 60 year old's, it means he is healthier for this age.
+
+# Problem 2
+
+# Problem 3 
+
+```{r}
+pr3Data = read_csv("covid.csv")
+```
+
+## 1. An estimated growth rate and doubling time for Italy.
+
+```{r}
+
+ggplot(data=filter(pr3Data, country=="Italy"), aes(x=days_since_first_death, y=deaths)) + geom_line() + labs(title="Covid Death over time in Italy", x="Days", y="Deaths")
+
+
+ggplot(data=filter(pr3Data, country=="Italy"), aes(x=days_since_first_death, y=log(deaths) )) + geom_line() + labs(title="Covid Death over time in Italy", x="Days", y="Deaths Log Scale")
+
+# fitting the data
+pr3FitItaly =  lm(log(deaths) ~ days_since_first_death, data = filter(pr3Data, country =="Italy"))
+print(coef(pr3FitItaly))
+
+
+```
+
+Our estimated growth rate for Ovid death rate in Italy is 18.321%, meaning that by using the rule of 70 $$ 70/18.321 = 3.82$$, meaning that the Covid death toll will double every 4 days during the begging of this epidemic.
+
+## 2. An estimated growth rate and doubling time for Spain.
+
+```{r}
+
+ggplot(data=filter(pr3Data, country=="Spain"), aes(x=days_since_first_death, y=deaths)) + geom_line() + labs(title="Covid Death over time in Spain", x="Days", y="Deaths")
+
+
+ggplot(data=filter(pr3Data, country=="Spain"), aes(x=days_since_first_death, y=log(deaths) )) + geom_line() + labs(title="Covid Death over time in Spain", x="Days", y="Deaths Log Scale")
+
+# fitting the data
+pr3FitSpain =  lm(log(deaths) ~ days_since_first_death, data = filter(pr3Data, country =="Spain"))
+print(coef(pr3FitSpain))
+
+
+```
+
+Our estimated growth rate for Ovid death rate in Italy is 27.624%, meaning that by using the rule of 70 $$ 70/27.624 = 2.52$$, meaning that the Covid death toll will double every 3 days during the begging of this epidemic.
+
+## 3. A line graph showing reported daily deaths over time
+
+```{r}
+
+ggplot() + 
+  geom_line(data=filter(pr3Data, country=="Italy"), 
+            aes(x=days_since_first_death, y=log(deaths), color= "Italy")) + 
+  geom_line(data=filter(pr3Data, country=="Spain"), 
+            aes(x=days_since_first_death, y=log(deaths), color= "Spain")) + 
+  labs(title="Covid Death over time in Spain vs Italy", 
+       x="Days", y="Deaths Log Scale") +  
+  scale_color_manual(values = c("Italy"="red4", "Spain" = "darkgreen"))
+```
+
+# Problem 4
+
+## In light of the data, what is the estimated price elasticity of demand for milk? Briefly describe what you did no more than a few sentences, together with your estimate.
+
+```{r}
+
+pr4Data = read_csv("milk.csv")
+
+ggplot(pr4Data) + geom_point( aes(x=price, y=sales))
+
+# fitting the data 
+
+pr4Fit = lm(log(sales) ~ log(price), pr4Data)
+print(coef(pr4Fit))
+```
+
+For every 1% the price increases the sales of milk drop by 1.619%
