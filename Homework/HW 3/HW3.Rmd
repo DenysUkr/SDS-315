@@ -52,6 +52,27 @@ By pluging in our formula, we predict that the 40 year old will have a creatine 
 
 # Problem 2
 
+```{r}
+
+pr2Data = read_csv("marketmodel.csv") 
+
+ggplot(pr2Data, aes(x=Date, y=c(SPY, AAPL, GOOG, MRK, JNJ, WMT, TGT))) + geom_line()
+
+pr2Sum = pr2Data %>% 
+  group_by(SPY, AAPL, GOOG, MRK, JNJ, WMT, TGT) %>% 
+  summarise(mean())
+
+
+```
+
+## What is "beta" in financial world?
+
+A beta value in the financial world means how closely related the stock is to the overall stock market performance, or how much of the risk comes from the market volatility (also called systematic risk). The larger the beta value the larger the systematic risk is. The beta number ranges from 0 - 1. 1 meaning for every point the market goes up or down, so does this individual stock. While a value of 0 means that the individual stock does not respond to the stock market at all, no matter if it goes up or down. There are also a few other occasions where the beta value is over 1 and a negative value. If the beta is over 1, that means for every 1 point the market goes up the individual stock outproduces the market. While a negative beta value means an inverse correlation to market, meaning if the market goes down this individual stock goes up.
+
+## Table
+
+## Systematic risk of the stocks
+
 # Problem 3 
 
 ```{r}
@@ -124,4 +145,4 @@ pr4Fit = lm(log(sales) ~ log(price), pr4Data)
 print(coef(pr4Fit))
 ```
 
-For every 1% the price increases the sales of milk drop by 1.619%
+For every 1% the price increases the sales of milk drop by 1.619%. Because the demand for the good goes down with the price increase this makes milk an elastic good.
