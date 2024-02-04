@@ -56,11 +56,18 @@ By pluging in our formula, we predict that the 40 year old will have a creatine 
 
 pr2Data = read_csv("marketmodel.csv") 
 
-ggplot(pr2Data, aes(x=Date, y=c(SPY, AAPL, GOOG, MRK, JNJ, WMT, TGT))) + geom_line()
+ggplot(pr2Data, aes(x=Date, y=c(SPY, AAPL, GOOG, MRK, JNJ, WMT, TGT))) + 
+  geom_line()
 
-pr2Sum = pr2Data %>% 
-  group_by(SPY, AAPL, GOOG, MRK, JNJ, WMT, TGT) %>% 
-  summarise(mean())
+
+
+# grabing the avarages of the data
+test = pr2Data[2:length(pr2Data)]
+
+pr2Sum = apply(test, 2, mean)
+
+
+# 
 
 
 ```
