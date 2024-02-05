@@ -67,7 +67,11 @@ test = pr2Data[2:length(pr2Data)]
 pr2Sum = apply(test, 2, mean)
 
 
-# 
+# find the regression model for each data
+## split all of the data into idividual stonks 
+# fit each graph to find the slope and the intercept 
+# find the R^2 value for each equation 
+# make a table with all of this information combined
 
 
 ```
@@ -80,7 +84,7 @@ A beta value in the financial world means how closely related the stock is to th
 
 ## Systematic risk of the stocks
 
-# Problem 3 
+# Problem 3
 
 ```{r}
 pr3Data = read_csv("covid.csv")
