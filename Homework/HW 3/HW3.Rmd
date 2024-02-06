@@ -29,11 +29,6 @@ ggplot(pr1Data, aes(x=age, y=creatclear)) + geom_point() + geom_smooth(method="l
 pr1Fit =  lm(age ~ creatclear, data = pr1Data)
 coef(pr1Fit)
 
-# prdicting using the model
-predictingData = as.data.frame(55, 40, 60)
-
-predict(pr1Fit, newdata = as.data.frame(c(55,40,60)))
-
   
 
 ```
@@ -56,21 +51,37 @@ By pluging in our formula, we predict that the 40 year old will have a creatine 
 
 pr2Data = read_csv("marketmodel.csv") 
 
-ggplot(pr2Data, aes(x=Date, y=c(SPY, AAPL, GOOG, MRK, JNJ, WMT, TGT))) + 
-  geom_line()
+# fitting the data and finding the r^2 value
+AAPLML =  lm(SPY ~ AAPL, data = pr2Data)
+APPLCF = coef(AAPLML)
+APPLSUM = summary(AAPLML)
+APPLR = APPLSUM$r.squared
+
+MRKML =  lm(SPY ~ MRK, data = pr2Data)
+MRKCF = coef(MRKML)
+APPLSUM = summary(AAPLML)
+APPLR = APPLSUM$r.squared
+
+JNJML =  lm(SPY ~ JNJ, data = pr2Data)
+JNJCF = coef(JNJML)
+APPLSUM = summary(AAPLML)
+APPLR = APPLSUM$r.squared
+
+
+WMTML =  lm(SPY ~ WMT, data = pr2Data)
+WMTCF = coef(WMTML)
+APPLSUM = summary(AAPLML)
+APPLR = APPLSUM$r.squared
+
+
+TGTML =  lm(SPY ~ TGT, data = pr2Data)
+TGTCF = coef(TGTML)
+
+
+# finidng the r^2 value 
 
 
 
-# grabing the avarages of the data
-test = pr2Data[2:length(pr2Data)]
-
-pr2Sum = apply(test, 2, mean)
-
-
-# find the regression model for each data
-## split all of the data into idividual stonks 
-# fit each graph to find the slope and the intercept 
-# find the R^2 value for each equation 
 # make a table with all of this information combined
 
 
