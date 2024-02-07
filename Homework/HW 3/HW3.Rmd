@@ -25,6 +25,8 @@ library(mosaic)
 library(kableExtra)
 ```
 
+## Github:
+
 # Problem 1:
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
@@ -35,8 +37,6 @@ ggplot(pr1Data, aes(x=age, y=creatclear)) + geom_point() + geom_smooth(method="l
 # fitting the data
 pr1Fit =  lm(age ~ creatclear, data = pr1Data)
 coef(pr1Fit)
-
-  
 
 ```
 
