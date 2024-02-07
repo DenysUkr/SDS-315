@@ -4,14 +4,17 @@ author: "Denys Osmak"
 date: "2024-02-03"
 output:
   pdf_document: default
+  html_document:
+    df_print: paged
 knitr:
   opts_chunk:
-    warning: no
-    echo: no
-    message: no
+    warning: False
+    echo: False
+    message: False
+    include: False
 ---
 
-```{r warning=FALSE, echo=FALSE, message=FALSE}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 library(rvest)
 library(sas7bdat)
 library(tibble)
@@ -29,7 +32,7 @@ library(kableExtra)
 
 # Problem 1:
 
-```{r warning=FALSE, echo=FALSE, message=FALSE}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 pr1Data = read_csv("creatinine.csv")
 
 ggplot(pr1Data, aes(x=age, y=creatclear)) + geom_point() + geom_smooth(method="lm") + labs( title="Age vs Creatine Level", x="Age", y="Creatine (mL/min)") 
@@ -54,7 +57,7 @@ By pluging in our formula, we predict that the 40 year old will have a creatine 
 
 # Problem 2
 
-```{r warning=FALSE, echo=FALSE, message=FALSE}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 
 pr2Data = read_csv("marketmodel.csv") 
 
@@ -101,7 +104,7 @@ A beta value in the financial world means how closely related the stock is to th
 
 ## Table
 
-```{r warning=FALSE, echo=FALSE, message=FALSE}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # make a table with all of this information combined
 
 pr2Table = tibble(Tinteker=c("APPL", "GOOG", "MRK", "JNJ", "WMT", "TGT"),
@@ -121,13 +124,13 @@ print(pr2Table)
 
 # Problem 3
 
-```{r warning=FALSE, echo=FALSE, message=FALSE}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 pr3Data = read_csv("covid.csv")
 ```
 
 ## 1. An estimated growth rate and doubling time for Italy.
 
-```{r warning=FALSE, echo=FALSE, message=FALSE}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 
 ggplot(data=filter(pr3Data, country=="Italy"), aes(x=days_since_first_death, y=deaths)) + geom_line() + labs(title="Covid Death over time in Italy", x="Days", y="Deaths")
 
@@ -145,7 +148,7 @@ Our estimated growth rate for Ovid death rate in Italy is 18.321%, meaning that 
 
 ## 2. An estimated growth rate and doubling time for Spain.
 
-```{r warning=FALSE, echo=FALSE, message=FALSE}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 
 ggplot(data=filter(pr3Data, country=="Spain"), aes(x=days_since_first_death, y=deaths)) + geom_line() + labs(title="Covid Death over time in Spain", x="Days", y="Deaths")
 
@@ -177,9 +180,9 @@ ggplot() +
 
 # Problem 4
 
-## In light of the data, what is the estimated price elasticity of demand for milk? Briefly describe what you did no more than a few sentences, together with your estimate.
+In light of the data, what is the estimated price elasticity of demand for milk? Briefly describe what you did no more than a few sentences, together with your estimate.
 
-```{r warning=FALSE, echo=FALSE, message=FALSE}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 
 pr4Data = read_csv("milk.csv")
 
