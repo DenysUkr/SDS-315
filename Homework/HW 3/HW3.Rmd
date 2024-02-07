@@ -2,7 +2,13 @@
 title: "HW3"
 author: "Denys Osmak"
 date: "2024-02-03"
-output: html_document
+output:
+  pdf_document: default
+knitr:
+  opts_chunk:
+    warning: no
+    echo: no
+    message: no
 ---
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
@@ -16,11 +22,12 @@ library(stringr)
 library(lubridate)
 library(knitr)
 library(mosaic)
+library(kableExtra)
 ```
 
 # Problem 1:
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE}
 pr1Data = read_csv("creatinine.csv")
 
 ggplot(pr1Data, aes(x=age, y=creatclear)) + geom_point() + geom_smooth(method="lm") + labs( title="Age vs Creatine Level", x="Age", y="Creatine (mL/min)") 
@@ -47,42 +54,43 @@ By pluging in our formula, we predict that the 40 year old will have a creatine 
 
 # Problem 2
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE}
 
 pr2Data = read_csv("marketmodel.csv") 
 
 # fitting the data and finding the r^2 value
+
 AAPLML =  lm(SPY ~ AAPL, data = pr2Data)
 APPLCF = coef(AAPLML)
 APPLSUM = summary(AAPLML)
 APPLR = APPLSUM$r.squared
 
+GOOGML =  lm(SPY ~ GOOG, data = pr2Data)
+GOOGCF = coef(GOOGML)
+GOOGSUM = summary(GOOGML)
+GOOGR = GOOGSUM$r.squared
+
 MRKML =  lm(SPY ~ MRK, data = pr2Data)
 MRKCF = coef(MRKML)
-APPLSUM = summary(AAPLML)
-APPLR = APPLSUM$r.squared
+MRKSUM = summary(MRKML)
+MRKR = MRKSUM$r.squared
 
 JNJML =  lm(SPY ~ JNJ, data = pr2Data)
 JNJCF = coef(JNJML)
-APPLSUM = summary(AAPLML)
-APPLR = APPLSUM$r.squared
+JNJSUM = summary(JNJML)
+JNJR = JNJSUM$r.squared
 
 
 WMTML =  lm(SPY ~ WMT, data = pr2Data)
 WMTCF = coef(WMTML)
-APPLSUM = summary(AAPLML)
-APPLR = APPLSUM$r.squared
+WMTSUM = summary(WMTML)
+WMTR = WMTSUM$r.squared
 
 
 TGTML =  lm(SPY ~ TGT, data = pr2Data)
 TGTCF = coef(TGTML)
-
-
-# finidng the r^2 value 
-
-
-
-# make a table with all of this information combined
+TGTSUM = summary(TGTML)
+TGTR = TGTSUM$r.squared
 
 
 ```
@@ -93,17 +101,33 @@ A beta value in the financial world means how closely related the stock is to th
 
 ## Table
 
+```{r warning=FALSE, echo=FALSE, message=FALSE}
+# make a table with all of this information combined
+
+pr2Table = tibble(Tinteker=c("APPL", "GOOG", "MRK", "JNJ", "WMT", "TGT"),
+                      Intercept = c(APPLCF[1], GOOGCF[1], MRKCF[1], JNJCF[1], WMTCF[1], TGTCF[1]),
+                      Slope = c(APPLCF[2], GOOGCF[2], MRKCF[2], JNJCF[2], WMTCF[2], TGTCF[2]),
+                      RSquared = c(APPLR, GOOGR, MRKR, JNJR, WMTR, TGTR)
+                      ) %>% 
+  kable( digits=3, align = "l" ) %>% 
+  kable_styling(full_width = F, html_font = "Cambria")
+
+print(pr2Table)
+
+
+```
+
 ## Systematic risk of the stocks
 
 # Problem 3
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE}
 pr3Data = read_csv("covid.csv")
 ```
 
 ## 1. An estimated growth rate and doubling time for Italy.
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE}
 
 ggplot(data=filter(pr3Data, country=="Italy"), aes(x=days_since_first_death, y=deaths)) + geom_line() + labs(title="Covid Death over time in Italy", x="Days", y="Deaths")
 
@@ -121,7 +145,7 @@ Our estimated growth rate for Ovid death rate in Italy is 18.321%, meaning that 
 
 ## 2. An estimated growth rate and doubling time for Spain.
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE}
 
 ggplot(data=filter(pr3Data, country=="Spain"), aes(x=days_since_first_death, y=deaths)) + geom_line() + labs(title="Covid Death over time in Spain", x="Days", y="Deaths")
 
@@ -139,7 +163,7 @@ Our estimated growth rate for Ovid death rate in Italy is 27.624%, meaning that 
 
 ## 3. A line graph showing reported daily deaths over time
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE}
 
 ggplot() + 
   geom_line(data=filter(pr3Data, country=="Italy"), 
@@ -155,7 +179,7 @@ ggplot() +
 
 ## In light of the data, what is the estimated price elasticity of demand for milk? Briefly describe what you did no more than a few sentences, together with your estimate.
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE}
 
 pr4Data = read_csv("milk.csv")
 
