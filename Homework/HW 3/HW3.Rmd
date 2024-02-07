@@ -3,9 +3,9 @@ title: "HW3"
 author: "Denys Osmak"
 date: "2024-02-03"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 knitr:
   opts_chunk:
     warning: False
@@ -28,7 +28,7 @@ library(mosaic)
 library(kableExtra)
 ```
 
-## Github:
+## Github: <https://github.com/DenysUkr/SDS-315-GitHub-Repo/tree/a410f6483825c271cfc49fef05ca95bc8c0614c6/Homework/HW%203>
 
 # Problem 1:
 
@@ -104,7 +104,7 @@ A beta value in the financial world means how closely related the stock is to th
 
 ## Table
 
-```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
+```{r warning=FALSE, echo=FALSE, message=FALSE}
 # make a table with all of this information combined
 
 pr2Table = tibble(Tinteker=c("APPL", "GOOG", "MRK", "JNJ", "WMT", "TGT"),
@@ -112,8 +112,7 @@ pr2Table = tibble(Tinteker=c("APPL", "GOOG", "MRK", "JNJ", "WMT", "TGT"),
                       Slope = c(APPLCF[2], GOOGCF[2], MRKCF[2], JNJCF[2], WMTCF[2], TGTCF[2]),
                       RSquared = c(APPLR, GOOGR, MRKR, JNJR, WMTR, TGTR)
                       ) %>% 
-  kable( digits=3, align = "l" ) %>% 
-  kable_styling(full_width = F, html_font = "Cambria")
+  kable( digits=5, align = "l")
 
 print(pr2Table)
 
@@ -121,6 +120,8 @@ print(pr2Table)
 ```
 
 ## Systematic risk of the stocks
+
+Apple has the lowest systematic risk, with the Beta value of 0.013 while the Johnson & Johnson has the highest systematic risk with the Beta value of 0.741
 
 # Problem 3
 
