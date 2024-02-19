@@ -247,7 +247,7 @@ ggplot(pr2PtBBoot, aes(x=n_TRUE) ) + geom_histogram() + labs(title = "Bootsraped
 confint(pr2PtBBoot, method = "percentile")
 ```
 
-### Conclusion 
+### Conclusion
 
 **I can say with 95% confidence interval that on average 43.475% +-1.834% of all 2014 Mercedes S Class 550 on the used market are Black.**
 
@@ -257,6 +257,59 @@ confint(pr2PtBBoot, method = "percentile")
 pr3Data = read.csv("nbc_pilotsurvey.csv")
 
 ```
+
+## Part A: Does "Living with Ed" or "My name is Earl" make people happier
+
+### Approach: 
+
+### Evidence:
+
+```{r}
+
+# filter all data to living with ed and my name is earl only
+
+pt3A = filter(pr3Data, pr3Data$Show == "Living with Ed" | pr3Data$Show == "My Name is Earl" )
+
+# find the mean for the overall data 
+
+pt3A %>% 
+  group_by(Show)%>% 
+  table(pt3A$Q1_Happy)
+
+# bootsrtrap 10k times 
+
+```
+
+```{r}
+
+# show diffmean hist 
+
+
+# show box plot of the shows 
+
+
+# confidence interval
+
+
+```
+
+### Conclusion:
+
+## Part B: 
+
+### Approach:
+
+### Evidence:
+
+### Conclusion:
+
+## Part C: 
+
+### Approach:
+
+### Evidence:
+
+### Conclusion:
 
 # Problem 4
 
