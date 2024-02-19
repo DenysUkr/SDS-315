@@ -1,0 +1,201 @@
+---
+title: "HW 4"
+author: "Denys Osmak"
+date: "2024-02-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+# importing libs 
+library(rvest)
+library(sas7bdat)
+library(tibble)
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(stringr)
+library(lubridate)
+library(knitr)
+library(mosaic)
+library(kableExtra)
+```
+
+# Problem 1
+
+```{r}
+# importing the data
+pr1Data = read.csv("gasprices.csv")
+```
+
+### Gas stations charge more if they lack direct competition in sight.
+
+#### Evidence:
+
+```{r}
+# bootsrtap the diffmean 10k times  
+boot_1_1 = do(10000) * diffmean(Price ~ Competitors , data=resample(pr1Data) )
+
+
+```
+
+```{r}
+# just some data analysis for better understanding of the dataset
+mean(Price ~ Competitors , data=pr1Data)
+                      
+ggplot(boot_1_1, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference of Price Gas stations with & without competitors")
+
+# grabing the confidence level 
+confint(boot_1_1, method = "percentile")
+
+```
+
+#### Conclusion:
+
+We can tell that this claim is true and supported by the data. In our data set, on average the gas station that did not have any competition nearby had charged 0.02 dollars more per gas vs gas stations with nearby competitors. Applying bootstrapping, with 95% accuracy we can articulate that the wider population of gas stations are charging anywhere from 0.05 more or to 0.01 less per gallon.
+
+### The richer the area, the higher the gas prices
+
+#### Evidence:
+
+```{r}
+# bootsrtap the diffmean 10k times 
+boot_1_2 = do(1000) * mean(Price ~ Income , data=resample(pr1Data) )
+
+```
+
+```{r}
+# just some data analysis for better understanding of the dataset
+mean(Price ~ Income , data=pr1Data)
+
+sum1_2 = group_by(pr1Data, Income) %>%
+  summarise(mean(Price))
+
+sum1_22 = group_by(boot_1_2, Income) %>%
+  summarise(mean(Price))
+  
+                      
+ggplot(pr1Data, aes(x=Income, y=Price) ) + geom_point() + labs(title = "ORIGINAL DATA Income vs Gas Price")
+
+ggplot(sum1_2, aes(x=Income, y="mean(Price)") ) + geom_point() + labs(title = "SUM DATA Income vs Gas Price") 
+
+ggplot(boot_1_2, aes(x=Income, y=Price) ) + geom_point() + labs(title = "Income vs Gas Price")
+
+
+# grabing the confidence level 
+confint(boot_1_1, method = "percentile")
+
+
+```
+
+#### Conclusion:
+
+### Gas stations at stoplights charge more.
+
+#### Evidence:
+
+```{r}
+# bootsrtap the diffmean 10k times  
+boot_1_3 = do(10000) * diffmean(Price ~ Stoplight , data=resample(pr1Data) )
+
+```
+
+```{r}
+# just some data analysis for better understanding of the dataset
+mean(Price ~ Stoplight , data=pr1Data)
+                      
+ggplot(boot_1_3, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference of Price Gas stations with & without Stoplights")
+
+# grabing the confidence level 
+confint(boot_1_3, method = "percentile")
+
+
+```
+
+#### Conclusion:
+
+While the data collected on the 101 gas stations shows an average increase in price by 0.6 cents the data does not prove that the gas stations next to stoplights charge more. We can claim with 95% confidence that gas stations next to stoplights can either charge 4 cents lower or 3 cents higher then gas stations away from stoplights. Meaning the results are not statistically significant.
+
+### Gas stations with direct highway access charge more.
+
+#### Evidence:
+
+```{r}
+# bootsrtap the diffmean 10k times  
+boot_1_4 = do(10000) * diffmean(Price ~ Highway , data=resample(pr1Data) )
+
+```
+
+```{r}
+# just some data analysis for better understanding of the dataset
+table( pr1Data$Highway)
+mean(Price ~ Highway , data=pr1Data)
+diffmean(Price ~ Highway , data=pr1Data)
+                      
+ggplot(boot_1_4, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference of Price Gas stations with & without Highway access")
+
+# grabing the confidence level 
+confint(boot_1_4, method = "percentile")
+
+
+```
+
+#### Conclusion:
+
+From the collected 101 gas stations, the gas stations with highway access charged 4.5 cents more then gas stations without highway access. However, we can say with 95% confidence that gas stations with highway access can charge anywhere from 0.9 to 8 cents more then gas stations without highway access, making this a statistically significant find, and a practically significant find.
+
+### Shell charges more than all other non-Shell brands.
+
+#### Evidence:
+
+```{r}
+# mutate the data to have Y and N if it is a shell compnay
+
+pr1Data = mutate(pr1Data, ShellBool = pr1Data$Name == "Shell")
+
+# bootstrap 10k times 
+
+boot_1_5 = do(10000) * diffmean(Price ~ ShellBool , data=resample(pr1Data) )
+
+```
+
+```{r}
+# just some data analysis for better understanding of the dataset
+mean(Price ~ ShellBool , data=pr1Data)
+diffmean(Price ~ ShellBool , data=pr1Data)
+table( pr1Data$ShellBool)
+                      
+ggplot(boot_1_5, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference of Price Shell Gas Stations VS non Shell Gas Stations")
+
+# grabing the confidence level 
+confint(boot_1_5, method = "percentile")
+
+```
+
+#### Conclusion:
+
+From the collected 101 gas stations, the Shell brand gas stations with highway access charged 2.7 cents more then other brand gas stations However, we can say with 95% confidence that Shell gas stations can charge anywhere from 1 cent less to 6.4 cents more then other brand gas stations, making this a statistically insignificant find, yet a practically significant find.
+
+# Problem 2
+
+```{r}
+pr2Data = read.csv("sclass.csv")
+
+```
+
+# Problem 3
+
+```{r}
+pr3Data = read.csv("nbc_pilotsurvey.csv")
+
+```
+
+# Problem 4
+
+```{r}
+pr4Data = read.csv("ebay.csv")
+
+```
