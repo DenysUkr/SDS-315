@@ -63,7 +63,7 @@ We can tell that this claim is true and supported by the data. In our data set, 
 
 ```{r}
 # bootsrtap the diffmean 10k times 
-boot_1_2 = do(1000) * mean(Price ~ Income , data=resample(pr1Data) )
+boot_1_2 = do(10000) * mean(Price ~ Income , data=resample(pr1Data) )
 
 ```
 
@@ -184,7 +184,72 @@ From the collected 101 gas stations, the Shell brand gas stations with highway a
 ```{r}
 pr2Data = read.csv("sclass.csv")
 
+# get some insight on the data 
+
+table(pr2Data$condition)
 ```
+
+## Part A
+
+```{r}
+
+# filter by year 2011 & trim == "63 AMG"
+
+pr2ptA = filter(pr2Data, pr2Data$year == 2011 & pr2Data$trim == "63 AMG")
+
+# Get some data based on avaraged millage 
+
+ggplot(pr2ptA, aes(x=mileage) ) + geom_histogram() 
+
+# bootsrap 10k based on these cars 
+pr2PtABoot = do(10000) * mean(x=sample(pr2ptA$mileage,116,replace = TRUE), data=replace(pr2ptA))
+
+ggplot(pr2PtABoot, aes(x=mean) ) + geom_histogram() + labs(title = "Bootsraped Distribution of AVG Millage", x="Avarage Millage")
+
+# get confidance interval
+confint(pr2PtABoot, method = "percentile")
+
+
+
+```
+
+### Conclusion:
+
+**The average millage of 2011 63 AMG that hit the market is 28,997 miles +- 2,712.19 miles**
+
+## Part B
+
+```{r}
+# filter by year 2014 & trim == "550" %>% mutate isBlack 
+
+pr2ptB = filter(pr2Data, pr2Data$year == 2014 & pr2Data$trim == "550") %>% 
+  mutate(., isBlack = .$color == "Black")
+
+# Get some data based on proportion on the entire subset 
+
+pr2PtBTable = table(pr2ptB$isBlack)
+pr2PtBTable
+pr2PtBProp = count(pr2ptB$isBlack) / 2889
+
+# bootsrap 10k based on these cars 
+pr2PtBBoot = do(10000) * (count(sample(pr2ptB$isBlack,2889,replace = TRUE)) / 2889)
+
+
+
+
+```
+
+```{r}
+
+ggplot(pr2PtBBoot, aes(x=n_TRUE) ) + geom_histogram() + labs(title = "Bootsraped Distribution of Black Car Proportions", x="Proportion of Black Cars")
+
+# get confidance interval
+confint(pr2PtBBoot, method = "percentile")
+```
+
+### Conclusion 
+
+**I can say with 95% confidence interval that on average 43.475% +-1.834% of all 2014 Mercedes S Class 550 on the used market are Black.**
 
 # Problem 3
 
