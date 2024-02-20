@@ -24,8 +24,6 @@ library(mosaic)
 library(kableExtra)
 ```
 
-# GITHUB: 
-
 # Problem 1
 
 ```{r}
@@ -40,6 +38,8 @@ pr1Data = read.csv("gasprices.csv")
 ```{r}
 # bootsrtap the diffmean 10k times  
 boot_1_1 = do(10000) * diffmean(Price ~ Competitors , data=resample(pr1Data) )
+
+
 ```
 
 ```{r}
@@ -63,13 +63,20 @@ We can tell that this claim is true and supported by the data. In our data set, 
 
 ```{r}
 # bootsrtap the diffmean 10k times 
-boot_1_2 = do(10000) * lm(Price ~ Income , data=resample(pr1Data) )
+boot_1_2 = do(10000) * mean(Price ~ Income , data=resample(pr1Data) )
 
 ```
 
 ```{r}
 # just some data analysis for better understanding of the dataset
+mean(Price ~ Income , data=pr1Data)
 
+sum1_2 = group_by(pr1Data, Income) %>%
+  summarise(mean(Price))
+
+sum1_22 = group_by(boot_1_2, Income) %>%
+  summarise(mean(Price))
+  
                       
 ggplot(pr1Data, aes(x=Income, y=Price) ) + geom_point() + labs(title = "ORIGINAL DATA Income vs Gas Price")
 
