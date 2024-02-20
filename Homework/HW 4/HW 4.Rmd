@@ -272,28 +272,35 @@ pt3A = filter(pr3Data, pr3Data$Show == "Living with Ed" | pr3Data$Show == "My Na
 
 # find the mean for the overall data 
 
-pt3A %>% 
-  group_by(Show)%>% 
-  table(pt3A$Q1_Happy)
+table(pt3A$Q1_Happy)
+
+mean(Q1_Happy ~ Show, data=pt3A)
+diffmean(Q1_Happy ~ Show, data=pt3A)
+
 
 # bootsrtrap 10k times 
+
+boot_3a = do(10000) * diffmean(Q1_Happy ~ Show, data=resample(pt3A) )
+
 
 ```
 
 ```{r}
 
 # show diffmean hist 
-
-
-# show box plot of the shows 
+ggplot(boot_3a, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference in Happy rating")
 
 
 # confidence interval
+
+confint(boot_3a, method = "percentile")
 
 
 ```
 
 ### Conclusion:
+
+While Living with Ed has slightly more reviews, and having a 0.27 point lead in our sample, this trend should not be applied to the show's overal performance of making someone happy compared to My Name is Earl. We can say with 95% confidence interval that Living with Ed is rated 0.149+-0.249 starts better then My Name is Earl, meaning this is statistically insignificant and practically insignificant.
 
 ## Part B: 
 
