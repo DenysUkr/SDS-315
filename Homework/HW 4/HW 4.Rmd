@@ -308,13 +308,93 @@ While Living with Ed has slightly more reviews, and having a 0.27 point lead in 
 
 ### Evidence:
 
+```{r}
+# filter all data to living with ed and my name is earl only
+
+pt3B = filter(pr3Data, Show == "The Biggest Loser" | Show == "The Apprentice: Los Angeles" )
+
+# find the mean for the overall data 
+
+table(pt3A$Q1_Annoyed)
+mean(Q1_Annoyed ~ Show, data=pt3B)
+diffmean(Q1_Annoyed ~ Show, data=pt3B)
+
+
+# bootsrtrap 10k times 
+
+boot_3b = do(10000) * diffmean(Q1_Annoyed ~ Show, data=resample(pt3B) )
+```
+
+```{r}
+# show diffmean hist 
+ggplot(boot_3b, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference in Annoyance rating")
+
+
+# confidence interval
+
+confint(boot_3b, method = "percentile")
+
+```
+
 ### Conclusion:
+
+From the survey "The Apprentice: Los Angles" has been voted as more annoying "The Biggest Loser" in our data set by average 0.27 points (out of 5), and we can say with 95% confidence interval that it produces more annoyance by 0.27+- 0.25 points, it is statistically significant and practically significant to say that this show is producing higher mean for Q1_Annoyance
 
 ## Part C: 
 
 ### Approach:
 
 ### Evidence:
+
+```{r}
+
+# filter all data to living with ed and my name is earl only
+
+pt3C = filter(pr3Data, Show == "Dancing with the Stars")
+
+# find the proportion for the overall data
+
+countPt3C = count(pt3C, pt3C$Q2_Confusing >= 4) 
+proportionPt3C = round(countPt3C[2,2]/ (sum(countPt3C)-1),4)
+
+# find the mean for the overall data 
+
+table(pt3A$Q1_Annoyed)
+mean(Q1_Annoyed ~ Show, data=pt3B)
+diffmean(Q1_Annoyed ~ Show, data=pt3B)
+
+
+# create a function to calculate the proportion
+calProportion = function(data)
+{
+  counted = count(data, data >= 4)
+  propotion = round(counted/(sum(counted)),4)
+  print(count)
+  print(propotion)
+  return(propotion)
+}
+
+
+# bootsrtrap 10k times 
+
+test = sample(pt3C$Q2_Confusing,181,replace = TRUE)
+calProportion(test)
+
+boot_3c = do(10000) * calProportion(sample(pt3C$Q2_Confusing,181,replace = TRUE))
+
+```
+
+```{r}
+# show diffmean hist 
+ggplot(boot_3b, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference in Annoyance rating")
+
+
+# confidence interval
+
+confint(boot_3b, method = "percentile")
+
+
+```
 
 ### Conclusion:
 
