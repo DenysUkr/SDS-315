@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # importing libs 
 library(rvest)
 library(sas7bdat)
@@ -24,11 +24,11 @@ library(mosaic)
 library(kableExtra)
 ```
 
-# GITHUB: 
+# GITHUB: <https://github.com/DenysUkr/SDS-315-GitHub-Repo/tree/10359b653cdd571d4d6a8d115b53a7afbd6fad1b/Homework/HW%204>
 
 # Problem 1
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # importing the data
 pr1Data = read.csv("gasprices.csv")
 ```
@@ -37,7 +37,7 @@ pr1Data = read.csv("gasprices.csv")
 
 #### Evidence:
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # bootsrtap the diffmean 10k times  
 boot_1_1 = do(10000) * diffmean(Price ~ Competitors , data=resample(pr1Data) )
 ```
@@ -46,7 +46,7 @@ boot_1_1 = do(10000) * diffmean(Price ~ Competitors , data=resample(pr1Data) )
 # just some data analysis for better understanding of the dataset
 mean(Price ~ Competitors , data=pr1Data)
                       
-ggplot(boot_1_1, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference of Price Gas stations with & without competitors")
+ggplot(boot_1_1, aes(x=diffmean) ) + geom_histogram( bins=30) + labs(title = "Difference of Price Gas stations with & without competitors")
 
 # grabing the confidence level 
 confint(boot_1_1, method = "percentile")
@@ -55,31 +55,27 @@ confint(boot_1_1, method = "percentile")
 
 #### Conclusion:
 
-We can tell that this claim is true and supported by the data. In our data set, on average the gas station that did not have any competition nearby had charged 0.02 dollars more per gas vs gas stations with nearby competitors. Applying bootstrapping, with 95% accuracy we can articulate that the wider population of gas stations are charging anywhere from 0.05 more or to 0.01 less per gallon.
+We can tell that this claim is false and not supported by the data. In our data set, on average the gas station that did not have any competition nearby had charged 0.02 dollars more per gas vs gas stations with nearby competitors. Applying bootstrapping, with 95% accuracy we can articulate that the wider population of gas stations are charging anywhere from 0.05\$ more or to 0.01\$ less per gallon, meaning its statistically insignificant.
 
 ### The richer the area, the higher the gas prices
 
 #### Evidence:
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # bootsrtap the diffmean 10k times 
 boot_1_2 = do(10000) * lm(Price ~ Income , data=resample(pr1Data) )
 
 ```
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # just some data analysis for better understanding of the dataset
 
                       
 ggplot(pr1Data, aes(x=Income, y=Price) ) + geom_point() + labs(title = "ORIGINAL DATA Income vs Gas Price")
 
-ggplot(sum1_2, aes(x=Income, y="mean(Price)") ) + geom_point() + labs(title = "SUM DATA Income vs Gas Price") 
-
-ggplot(boot_1_2, aes(x=Income, y=Price) ) + geom_point() + labs(title = "Income vs Gas Price")
-
 
 # grabing the confidence level 
-confint(boot_1_1, method = "percentile")
+confint(boot_1_2, method = "percentile")
 
 
 ```
@@ -90,7 +86,7 @@ confint(boot_1_1, method = "percentile")
 
 #### Evidence:
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # bootsrtap the diffmean 10k times  
 boot_1_3 = do(10000) * diffmean(Price ~ Stoplight , data=resample(pr1Data) )
 
@@ -100,7 +96,7 @@ boot_1_3 = do(10000) * diffmean(Price ~ Stoplight , data=resample(pr1Data) )
 # just some data analysis for better understanding of the dataset
 mean(Price ~ Stoplight , data=pr1Data)
                       
-ggplot(boot_1_3, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference of Price Gas stations with & without Stoplights")
+ggplot(boot_1_3, aes(x=diffmean) ) + geom_histogram( bins=30) + labs(title = "Difference of Price Gas stations with & without Stoplights")
 
 # grabing the confidence level 
 confint(boot_1_3, method = "percentile")
@@ -110,13 +106,13 @@ confint(boot_1_3, method = "percentile")
 
 #### Conclusion:
 
-While the data collected on the 101 gas stations shows an average increase in price by 0.6 cents the data does not prove that the gas stations next to stoplights charge more. We can claim with 95% confidence that gas stations next to stoplights can either charge 4 cents lower or 3 cents higher then gas stations away from stoplights. Meaning the results are not statistically significant.
+While the data collected on the 101 gas stations shows an average increase in price by 0.6 cents the data does not prove that the gas stations next to stoplights charge more. We can claim with 95% confidence that gas stations next to stoplights can either charge 4 cents lower or 3 cents higher then gas stations away from stoplights. Meaning the results are not statistically significant and data does not support the claim
 
 ### Gas stations with direct highway access charge more.
 
 #### Evidence:
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # bootsrtap the diffmean 10k times  
 boot_1_4 = do(10000) * diffmean(Price ~ Highway , data=resample(pr1Data) )
 
@@ -128,7 +124,7 @@ table( pr1Data$Highway)
 mean(Price ~ Highway , data=pr1Data)
 diffmean(Price ~ Highway , data=pr1Data)
                       
-ggplot(boot_1_4, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference of Price Gas stations with & without Highway access")
+ggplot(boot_1_4, aes(x=diffmean) ) + geom_histogram( bins=30) + labs(title = "Difference of Price Gas stations with & without Highway access")
 
 # grabing the confidence level 
 confint(boot_1_4, method = "percentile")
@@ -138,13 +134,13 @@ confint(boot_1_4, method = "percentile")
 
 #### Conclusion:
 
-From the collected 101 gas stations, the gas stations with highway access charged 4.5 cents more then gas stations without highway access. However, we can say with 95% confidence that gas stations with highway access can charge anywhere from 0.9 to 8 cents more then gas stations without highway access, making this a statistically significant find, and a practically significant find.
+From the collected 101 gas stations, the gas stations with highway access charged 4 cents more then gas stations without highway access. However, we can say with 95% confidence that gas stations with highway access can charge anywhere from 0.8 to 8 cents more then gas stations without highway access, making this a statistically significant find, and a practically significant find.
 
 ### Shell charges more than all other non-Shell brands.
 
 #### Evidence:
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # mutate the data to have Y and N if it is a shell compnay
 
 pr1Data = mutate(pr1Data, ShellBool = pr1Data$Name == "Shell")
@@ -161,7 +157,7 @@ mean(Price ~ ShellBool , data=pr1Data)
 diffmean(Price ~ ShellBool , data=pr1Data)
 table( pr1Data$ShellBool)
                       
-ggplot(boot_1_5, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference of Price Shell Gas Stations VS non Shell Gas Stations")
+ggplot(boot_1_5, aes(x=diffmean) ) + geom_histogram( bins=30) + labs(title = "Difference of Price Shell Gas Stations VS non Shell Gas Stations")
 
 # grabing the confidence level 
 confint(boot_1_5, method = "percentile")
@@ -170,11 +166,11 @@ confint(boot_1_5, method = "percentile")
 
 #### Conclusion:
 
-From the collected 101 gas stations, the Shell brand gas stations with highway access charged 2.7 cents more then other brand gas stations However, we can say with 95% confidence that Shell gas stations can charge anywhere from 1 cent less to 6.4 cents more then other brand gas stations, making this a statistically insignificant find, yet a practically significant find.
+From the collected 101 gas stations, the Shell brand gas stations with highway access charged 2 cents more then other brand gas stations However, we can say with 95% confidence that Shell gas stations can charge anywhere from 1 cent less to 6 cents more then other brand gas stations, making this a statistically insignificant find, yet a practically significant find.
 
 # Problem 2
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 pr2Data = read.csv("sclass.csv")
 
 # get some insight on the data 
@@ -192,12 +188,12 @@ pr2ptA = filter(pr2Data, pr2Data$year == 2011 & pr2Data$trim == "63 AMG")
 
 # Get some data based on avaraged millage 
 
-ggplot(pr2ptA, aes(x=mileage) ) + geom_histogram() 
+#ggplot(pr2ptA, aes(x=mileage) ) + geom_histogram( bins=30) + labs(title="Milage Distribution in Original Dataset")
 
 # bootsrap 10k based on these cars 
 pr2PtABoot = do(10000) * mean(x=sample(pr2ptA$mileage,116,replace = TRUE), data=replace(pr2ptA))
 
-ggplot(pr2PtABoot, aes(x=mean) ) + geom_histogram() + labs(title = "Bootsraped Distribution of AVG Millage", x="Avarage Millage")
+ggplot(pr2PtABoot, aes(x=mean) ) + geom_histogram( bins=30) + labs(title = "Bootsraped Distribution of AVG Millage", x="Avarage Millage")
 
 # get confidance interval
 confint(pr2PtABoot, method = "percentile")
@@ -208,11 +204,11 @@ confint(pr2PtABoot, method = "percentile")
 
 ### Conclusion:
 
-**The average millage of 2011 63 AMG that hit the market is 28,997 miles +- 2,712.19 miles**
+**The average millage of 2011 63 AMG that hit the market is 28,997 miles +- 2,712.19 miles with 95% confidance**
 
 ## Part B
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # filter by year 2014 & trim == "550" %>% mutate isBlack 
 
 pr2ptB = filter(pr2Data, pr2Data$year == 2014 & pr2Data$trim == "550") %>% 
@@ -234,7 +230,7 @@ pr2PtBBoot = do(10000) * (count(sample(pr2ptB$isBlack,2889,replace = TRUE)) / 28
 
 ```{r}
 
-ggplot(pr2PtBBoot, aes(x=n_TRUE) ) + geom_histogram() + labs(title = "Bootsraped Distribution of Black Car Proportions", x="Proportion of Black Cars")
+ggplot(pr2PtBBoot, aes(x=n_TRUE) ) + geom_histogram( bins=30) + labs(title = "Bootsraped Distribution of Black Car Proportions", x="Proportion of Black Cars")
 
 # get confidance interval
 confint(pr2PtBBoot, method = "percentile")
@@ -246,7 +242,7 @@ confint(pr2PtBBoot, method = "percentile")
 
 # Problem 3
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 pr3Data = read.csv("nbc_pilotsurvey.csv")
 
 ```
@@ -255,9 +251,11 @@ pr3Data = read.csv("nbc_pilotsurvey.csv")
 
 ### Approach:
 
+First we filter all data to living with ed and my name is earl only, then we got a better understanding of the data by finding the mean for the overall data, then we bootstrapped diff mean 10,000 ties with respect to Q1_Happy \~ Show and then created a histrogram of diff mean and grabbed the confidence interval with the "percentile" method
+
 ### Evidence:
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 
 # filter all data to living with ed and my name is earl only
 
@@ -281,7 +279,7 @@ boot_3a = do(10000) * diffmean(Q1_Happy ~ Show, data=resample(pt3A) )
 ```{r}
 
 # show diffmean hist 
-ggplot(boot_3a, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference in Happy rating")
+ggplot(boot_3a, aes(x=diffmean) ) + geom_histogram( bins=30) + labs(title = "Difference in Happy rating")
 
 
 # confidence interval
@@ -293,15 +291,17 @@ confint(boot_3a, method = "percentile")
 
 ### Conclusion:
 
-While Living with Ed has slightly more reviews, and having a 0.27 point lead in our sample, this trend should not be applied to the show's overal performance of making someone happy compared to My Name is Earl. We can say with 95% confidence interval that Living with Ed is rated 0.149+-0.249 starts better then My Name is Earl, meaning this is statistically insignificant and practically insignificant.
+While Living with Ed has slightly more reviews, and having a 0.27 point lead in our sample, this trend should not be applied to the show's overal performance of making someone happy compared to My Name is Earl. We can say with 95% confidence interval that Living with Ed is rated 0.149+-0.249 points (out of 5) better then My Name is Earl, meaning this is statistically insignificant and practically insignificant.
 
 ## Part B:
 
 ### Approach:
 
+First we filter all data to The Biggest Loser" and "The Apprentice: Los Angeles" then we got a better understanding of the data by finding the mean for the overall data, then we bootstrapped diff mean 10,000 ties with respect to Q1_Annoyed \~ Show and then created a histrogram of diff mean and grabbed the confidence interval with the "percentile" method
+
 ### Evidence:
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # filter all data to living with ed and my name is earl only
 
 pt3B = filter(pr3Data, Show == "The Biggest Loser" | Show == "The Apprentice: Los Angeles" )
@@ -320,7 +320,7 @@ boot_3b = do(10000) * diffmean(Q1_Annoyed ~ Show, data=resample(pt3B) )
 
 ```{r}
 # show diffmean hist 
-ggplot(boot_3b, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference in Annoyance rating")
+ggplot(boot_3b, aes(x=diffmean) ) + geom_histogram( bins=30) + labs(title = "Difference in Annoyance rating")
 
 
 # confidence interval
@@ -337,9 +337,11 @@ From the survey "The Apprentice: Los Angles" has been voted as more annoying "Th
 
 ### Approach:
 
+First we filter all data to Dancing with the Star then we got a better understanding of the data by finding the mean and proportion for the overall data, then we bootstrapped diff mean 10,000 ties with respect to Q2_Confusing\~ Show using a custom meathod to find the proportion and then created a histrogram of the proportion and grabbed the confidence interval with the "percentile" method
+
 ### Evidence:
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 
 # filter all data to living with ed and my name is earl only
 
@@ -352,19 +354,16 @@ proportionPt3C = round(countPt3C[2,2]/ (sum(countPt3C)-1),4)
 
 # find the mean for the overall data 
 
-table(pt3A$Q1_Annoyed)
-mean(Q1_Annoyed ~ Show, data=pt3B)
-diffmean(Q1_Annoyed ~ Show, data=pt3B)
+table(pt3C$Q1_Annoyed)
+#mean(Q2_Confusing ~ Show, data=pt3C)
+#diffmean(Q2_Confusing ~ Show, data=pt3C)
 
 
 # create a function to calculate the proportion
 calProportion = function(data)
 {
   counted = count(data, data >= 4)
-  print(sum(counted))
-  print(counted)
   propotion = counted/sum(counted)
-  print(propotion)
   return(propotion)
 }
 
@@ -380,32 +379,31 @@ boot_3c = do(10000) * calProportion(sample(pt3C$Q2_Confusing,181,replace = TRUE)
 
 ```{r}
 # show diffmean hist 
-ggplot(boot_3b, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference in Annoyance rating")
-
-
-# confidence interval
-
-confint(boot_3b, method = "percentile")
+ggplot(boot_3b, aes(x=diffmean) ) + geom_histogram( bins=30) + labs(title = "Difference in Confused rating")
 
 
 ```
 
 ### Conclusion:
 
+We can say with 95% confidence that on avarage the people 27%+- 2.5%, will find Dancing with the stars 4 or 5 points (out of 5) as confusing. This is is statistically significant and practically significant results.
+
 # Problem 4
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 pr4Data = read.csv("ebay.csv")
 
 ```
 
 ## Question: Is the revenue ratio higher when paid ads were turned off or not
 
-## Approach: 
+## Approach:
+
+First we mututate to find the ratio of reve after and before" then we got a better understanding of the data by finding the mean and rev ratio for the overall data, then we bootstrapped diff mean 10,000 ties with respect to rev_ratio \~ adwords_pause and then created a histrogram of diff mean and grabbed the confidence interval with the "percentile" method
 
 ## Evidence:
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 
 # mututate to find the ratio of reve after and before
 pr4Data = mutate(pr4Data, rev_ratio = rev_after/rev_before)
@@ -418,7 +416,7 @@ diffmean(rev_ratio ~ adwords_pause, data=pr4Data)
 
 ```
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
 # bootsrtrap 10k times 
 
 boot_4 = do(10000) * diffmean(rev_ratio ~ adwords_pause, data=resample(pr4Data) )
@@ -426,13 +424,13 @@ boot_4 = do(10000) * diffmean(rev_ratio ~ adwords_pause, data=resample(pr4Data) 
 
 ```{r}
 
-ggplot(boot_4, aes(x=diffmean) ) + geom_histogram() + labs(title = "Difference of Price Gas stations with & without competitors")
+ggplot(boot_4, aes(x=diffmean) ) + geom_histogram( bins=30) + labs(title = "Difference of Price Gas stations with & without competitors")
 
 # grabing the confidence level 
 confint(boot_4, method = "percentile")
 
 ```
 
-## Conclusion: 
+## Conclusion:
 
 **After turning off the ads we can say with 95% confidence that the revenue has dropped 5.23% +- 3.92% after turning off the paid search. Meaning that unless Ebay is spending over 9% of its total revenue on paid ads, making ads unprofitable, the data supports Ebay to continue to pay for ads.**
