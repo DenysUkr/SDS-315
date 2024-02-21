@@ -1,0 +1,46 @@
+---
+title: "HW 5"
+author: "Denys Osmak"
+date: "2024-02-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
+# importing libs 
+library(rvest)
+library(sas7bdat)
+library(tibble)
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(stringr)
+library(lubridate)
+library(knitr)
+library(mosaic)
+library(kableExtra)
+```
+
+# GITHUB: 
+
+# Problem 1
+
+```{r}
+#importing the data
+
+```
+
+```{r}
+
+# find the original ratio of fraud 
+
+# run the boot strap 100k times 
+
+# print how many times the times there was fraud over 70 times detected (SUMMARY STATISTIC)
+
+# Find the ratio of how many times fraud was over 70 times vs total count (P-VALUE)
+
+```
