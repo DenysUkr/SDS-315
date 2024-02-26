@@ -24,23 +24,124 @@ library(mosaic)
 library(kableExtra)
 ```
 
-# GITHUB: 
+# GITHUB:
 
 # Problem 1
 
 ```{r}
-#importing the data
+#importing the data 
 
 ```
 
 ```{r}
 
-# find the original ratio of fraud 
-
 # run the boot strap 100k times 
+
+pr1boot = do(100000) * nflip(n=2021, prob=0.024)
 
 # print how many times the times there was fraud over 70 times detected (SUMMARY STATISTIC)
 
+ggplot(pr1boot) + 
+  geom_histogram(aes(x=nflip), binwidth=1) + 
+  labs(title=" Simulated 100K runs of suspicious trade detection by SEC", x="Flagged Trades") + 
+  geom_vline(xintercept = 71, color = "red")
+  
+
 # Find the ratio of how many times fraud was over 70 times vs total count (P-VALUE)
+pr1Pvalue = count(pr1boot >= 70)/100000
+ 
+```
+
+## Conclusion:
+
+I am testing null hypothesis where Iron Bank did not commit any illegal trades, but rather they were flagged due to pure chance. I am using the SEC reported 2.4% chance of falsely flagging a trade as suspicious. According to the Monte Carlos Simulation the p-value that was acquired from this experiment is `r pr1Pvalue` meaning there is `r pr1Pvalue*100`% that Iron Bank suspicious trades were flagged due to pure chance, concluding that Iron Bank was rightfyly to been flagged for suspicious trade.
+
+# Problem 2 
+
+```{r}
+
+# run the boot strap 100k times 
+
+pr2boot = do(100000) * nflip(n=50, prob=0.03)
+
+# print how many times the times there was fraud over 70 times detected (SUMMARY STATISTIC)
+
+ggplot(pr2boot) + 
+  geom_histogram(aes(x=nflip), binwidth = 1) + 
+  labs(title=" Simulated 100K runs of Health Code Violations", x="Health Code Violations") + 
+  geom_vline(xintercept = 8, color = "red") + 
+   scale_x_continuous(breaks = seq(1, 10, by = 1))
+  
+
+
+# Find the ratio of how many times fraud was over 70 times vs total count (P-VALUE)
+pr2Count = count(pr2boot >= 8)
+pr2Pvalue = pr2Count/100000
+```
+
+## Conclusion:
+
+I am testing null hypothesis where Gourmet Bites does not have any abnormal health violations, but rather they were flagged due to pure chance. I am using the Health Deperpent reported 3% chance of normal health code violations in a well maintained kitchen. According to the Monte Carlos Simulation the p-value that was acquired from this experiment is `r pr2Pvalue` meaning there is `r pr2Pvalue*100`% that Gourmet Bites had violated health code trades due to pure chance, concluding that Gourmet Bites was rightfully to been charged with health code violations.
+
+# Problem 3
+
+# Pt1:
+
+```{r}
+# copied over from Ceaser Cipher 
+calculate_chi_squared = function(sentence, freq_table) {
+  
+  # Ensure letter frequencies are normalized and sum to 1
+  freq_table$Probability = freq_table$Probability / sum(freq_table$Probability)
+  
+  # Remove non-letters and convert to uppercase
+  clean_sentence = gsub("[^A-Za-z]", "", sentence)
+  clean_sentence = toupper(clean_sentence)
+  
+  # Count the occurrences of each letter in the sentence
+  observed_counts = table(factor(strsplit(clean_sentence, "")[[1]], levels = freq_table$Letter))
+  
+  # Calculate expected counts
+  total_letters = sum(observed_counts)
+  expected_counts = total_letters * freq_table$Probability
+  
+  # Chi-squared statistic
+  chi_squared_stat = sum((observed_counts - expected_counts)^2 / expected_counts)
+  
+  return(chi_squared_stat)
+}
+```
+
+```{r}
+
+# import sentances
+brownText = read_lines("brown_sentences.txt")
+
+# convert all text to upper and remove all funky characters
+
+brownText = gsub("[^A-Za-z]", "", brownText)
+brownText = toupper(brownText)
+
+# import the frequancy table from Guttemburg exercise that we did earlier
+letterFreq = read.csv("letter_frequencies.csv")
+
+# Use the caclulate chi function in a for loop for all of the senteances from Brown Text 
+chiBrownTable = data.frame(chiSquare = c())
+
+for (sentance in brownText)
+{
+  chiBrownTable = append(chiBrownTable, calculate_chi_squared(sentance, letterFreq))
+  #print(sentance)
+  #print(calculate_chi_squared(sentance, letterFreq))
+  
+}
+
+chiBrownTable
+
+# print out a hisogram graph to see the normal distribution of all chi suqared values for the Brown text 
+
+ggplot(chiBrownTable) + 
+  geom_histogram(aes(x=Value), binwidth=1) + 
+  labs(title=" Simulated 100K runs of suspicious trade detection by SEC", x="Flagged Trades")
 
 ```
