@@ -24,7 +24,7 @@ library(mosaic)
 library(kableExtra)
 ```
 
-# GITHUB:
+# GITHUB: <https://github.com/DenysUkr/SDS-315-GitHub-Repo/tree/0c18c7ab6aec1e9d8abd0834cfccd06012621767/Homework/HW%205>
 
 # Problem 1
 
@@ -56,7 +56,7 @@ pr1Pvalue = count(pr1boot >= 70)/100000
 
 I am testing null hypothesis where Iron Bank did not commit any illegal trades, but rather they were flagged due to pure chance. I am using the SEC reported 2.4% chance of falsely flagging a trade as suspicious. According to the Monte Carlos Simulation the p-value that was acquired from this experiment is `r pr1Pvalue` meaning there is `r pr1Pvalue*100`% that Iron Bank suspicious trades were flagged due to pure chance, concluding that Iron Bank was rightfyly to been flagged for suspicious trade.
 
-# Problem 2 
+# Problem 2
 
 ```{r}
 
@@ -140,8 +140,8 @@ chiBrownTable
 
 # print out a hisogram graph to see the normal distribution of all chi suqared values for the Brown text 
 
-ggplot(chiBrownTable) + 
-  geom_histogram(aes(x=Value), binwidth=1) + 
-  labs(title=" Simulated 100K runs of suspicious trade detection by SEC", x="Flagged Trades")
+#ggplot(chiBrownTable) + 
+  #geom_histogram(aes(x=Value), binwidth=1) + 
+  #labs(title=" Simulated 100K runs of suspicious trade detection by SEC", x="Flagged Trades")
 
 ```
