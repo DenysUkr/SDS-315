@@ -1,0 +1,190 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={HW 9},
+  pdfauthor={Denys Osmak},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{HW 9}
+\author{Denys Osmak}
+\date{2024-04-16}
+
+\begin{document}
+\maketitle
+
+\hypertarget{get-out-the-vote}{%
+\section{Get out the vote}\label{get-out-the-vote}}
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+\hypertarget{pt-a}{%
+\subsection{Pt A}\label{pt-a}}
+
+65\% of the people in the data did not vote in the 1998 election, while
+45\% voted.
+
+44\% of the people that did not receive the GOTV call, still voted in
+1998 election
+
+We can say with 95\% confidence that getting a GOTV phone call increased
+the chances of voting 14-27\%
+
+\hypertarget{pt-b}{%
+\subsection{Pt B}\label{pt-b}}
+
+The distribution of age is overall much higher for the people that voted
+in 1998 election vs who didn't according to the box plot and the five
+number summery. For example, the average age for someone who voted was
+14 years older vs who didn't vote.
+
+Next, 80\% of the people that are registered with a major party have
+voted in the 1998 election vs 70\% of the people that are registered
+with a major party and didn't voted. Additionally, 80\% of the people
+that were registered with a party got the GOTV call, while 74\% of the
+people registered with a party didn't get the GOTV call
+
+Lastly, 76\% of the people that voted in the 1996 election also voted in
+1998 election, while only 34\% of the people voted in the 1996 election
+didn't vote in 1998 election. Next, 71\% of the people that voted in the
+1996 election got GOTV call, while 53\% of the people voted in the 1996
+election got GOVT call
+
+\hypertarget{pt-c}{%
+\subsection{Pt C}\label{pt-c}}
+
+After matching the data, all of the people came from the same range of
+years (19-96). Next the proportion of people that were registered with
+majority party and voted and who didn't get the call matched to 80\% of
+both subsets. Similarly, the proportion of people who voted in 1996
+election \& voted and who didn't get the call matched to 71\% of both
+subsets.
+
+\hypertarget{what-do-you-conclude-about-the-overall-effect-of-the-gotv-call-on-the-likelihood-of-voting-in-the-1998-election}{%
+\subsubsection{What do you conclude about the overall effect of the GOTV
+call on the likelihood of voting in the 1998
+election?}\label{what-do-you-conclude-about-the-overall-effect-of-the-gotv-call-on-the-likelihood-of-voting-in-the-1998-election}}
+
+After matching the data to GOTV calls, confirming matching of the data,
+and bootstrapping I can say with 95\% confidence (p value \textless{}
+0.05) that getting a GOTV call increase the chance of someone voting by
+0.5\%-14.1\%.
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\hypertarget{pt-a-1}{%
+\subsection{Pt A}\label{pt-a-1}}
+
+\hypertarget{pt-b-1}{%
+\subsection{Pt B}\label{pt-b-1}}
+
+\hypertarget{pt-c-1}{%
+\subsection{Pt C}\label{pt-c-1}}
+
+\begin{itemize}
+\item
+  The baseline is having a Large Opening and a Thick alloy, represented
+  by the intercept of having 0.393 skips
+\item
+  The main effect of having a Medium Opening is an increase of skips by
+  2.4 compared to Having a Large Opening
+\item
+  The main effect of having a Small Opening is an increase of skips by
+  5.1 compared to Having a Large Opening
+\item
+  The main effect of having a Thin Alloy is an increase of skips by 2.3
+  compared to Having a Thick Alloy
+\item
+  The main effect of having a Medium Opening and a Thin Alloy is an
+  decrease of skips by 0.7 compared to Large Opening + Thick Alloy
+\item
+  The main effect of having a Small Opening and a Thin Alloy is an
+  increase of skips by 9.6 compared to Large Opening + Thick Alloy
+\end{itemize}
+
+\hypertarget{pt-d}{%
+\subsection{Pt D}\label{pt-d}}
+
+Based on the confidence intervals and the estimated weights of each
+coefficient I would recommend sticking with Large Opening with Thick
+alloy, however I would recommend further testing with Medium Opening and
+Thin Alloy because according to the confidence interval it has potential
+to decrease the amount of skips (but also to increase it)
+
+\end{document}

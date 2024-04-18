@@ -1,0 +1,230 @@
+---
+title: "HW 9"
+author: "Denys Osmak"
+date: "2024-04-16"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=FALSE}
+# importing libs 
+library(rvest)
+library(sas7bdat)
+library(tibble)
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(stringr)
+library(lubridate)
+library(knitr)
+library(mosaic)
+library(kableExtra)
+library(tidyverse)
+library(MatchIt)
+library(moderndive)
+```
+
+# Get out the vote
+
+# GITHUB: <https://github.com/DenysUkr/SDS-315-GitHub-Repo/tree/0c18c7ab6aec1e9d8abd0834cfccd06012621767/Homework/HW%205>
+
+# Problem 1
+
+## Pt A
+
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=TRUE}
+# importing data 
+p1Data = read.csv("turnout.csv")
+
+# The proportion of those receiving a GOTV call who voted in 1998.
+
+votedCalled = p1Data %>% 
+  filter(GOTV_call == 1)
+prop(~voted1998, data=votedCalled)
+
+
+```
+
+65% of the people in the data did not vote in the 1998 election, while 45% voted.
+
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=TRUE}
+# The sample proportion of those not receiving a GOTV call who voted in 1998.
+
+votedNotCalled = p1Data %>% 
+  filter(GOTV_call == 0)
+prop(~voted1998, data=votedNotCalled)
+
+
+```
+
+44% of the people that did not receive the GOTV call, still voted in 1998 election
+
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=TRUE}
+# A large-sample 95% confidence interval for the difference in these two proportions:
+
+prop.test(voted1998 ~ GOTV_call, data = p1Data)
+# DONT PRINT
+
+```
+
+We can say with 95% confidence that getting a GOTV phone call increased the chances of voting 14-27%
+
+## Pt B
+
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=TRUE}
+## Evidnece that Age is confounder 
+# box plot of age of people that voted and did not
+ggplot(data=p1Data) + geom_boxplot(aes(y=AGE))+ facet_wrap(~voted1998) + labs(title = "Box plots of Age depending if they voted in 1998 election", x="Voted In 1998 Election")
+
+# five num summery of age
+fiveNumAge = p1Data %>% 
+  group_by(voted1998) %>% 
+  summarise(
+    Minimum = min(AGE),
+    `1st Quartile` = quantile(AGE, 0.25),
+    Median = median(AGE),
+    `3rd Quartile` = quantile(AGE, 0.75),
+    Maximum = max(AGE)
+  )
+fiveNumAge
+
+
+
+## Evidnece that Majority Party is confounder 
+# The sample proportion of those who voted in 1998 and regsitred with a major party
+xtabs(~MAJORPTY + voted1998, data=p1Data) %>% prop.table(margin=2)
+
+# The proportion of people who got a phonecall and registred with a major party
+xtabs(~MAJORPTY + GOTV_call, data=p1Data) %>% prop.table(margin=2)
+
+
+## Evidnece that Voted 1996 is confounder 
+# The sample proportion of those who voted in 1998 and voted in 1996 election
+xtabs(~voted1996 + voted1998, data=p1Data) %>% prop.table(margin=2)
+
+# The proportion of people who got a phonecall and voted in 1996 election
+xtabs(~voted1996 + GOTV_call, data=p1Data) %>% prop.table(margin=2)
+
+
+```
+
+The distribution of age is overall much higher for the people that voted in 1998 election vs who didn't according to the box plot and the five number summery. For example, the average age for someone who voted was 14 years older vs who didn't vote.
+
+Next, 80% of the people that are registered with a major party have voted in the 1998 election vs 70% of the people that are registered with a major party and didn't voted. Additionally, 80% of the people that were registered with a party got the GOTV call, while 74% of the people registered with a party didn't get the GOTV call
+
+Lastly, 76% of the people that voted in the 1996 election also voted in 1998 election, while only 34% of the people voted in the 1996 election didn't vote in 1998 election. Next, 71% of the people that voted in the 1996 election got GOTV call, while 53% of the people voted in the 1996 election got GOVT call
+
+## Pt C
+
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=TRUE}
+### MATCHING THE DATA ####
+p1DataMatched = matchit(GOTV_call ~ factor(voted1996) + AGE + factor(MAJORPTY) ,data=p1Data, ratio=5 ) %>%   match.data
+
+
+
+## Evidnece that Age is not confounder 
+# box plot of age of people that voted and did not
+ggplot(data=p1DataMatched) + geom_boxplot(aes(y=AGE))+ facet_wrap(~voted1998) + labs(title = "Box plots of Age depending if they voted in 1998 election with Matched Data", x="Voted In 1998 Election")
+
+# five num summery of age
+fiveNumAgeMatched = p1DataMatched %>% 
+  group_by(voted1998) %>% 
+  summarise(
+    Minimum = min(AGE),
+    `1st Quartile` = quantile(AGE, 0.25),
+    Median = median(AGE),
+    `3rd Quartile` = quantile(AGE, 0.75),
+    Maximum = max(AGE)
+  )
+fiveNumAgeMatched
+
+
+## Evidnece that Majority Party is confounder 
+# The sample proportion of those who voted in 1998 and regsitred with a major party
+xtabs(~MAJORPTY + voted1998, data=p1DataMatched) %>% prop.table(margin=2)
+
+# The proportion of people who got a phonecall and registred with a major party
+xtabs(~MAJORPTY + GOTV_call, data=p1DataMatched) %>% prop.table(margin=2)
+
+
+## Evidnece that Voted 1996 is confounder 
+# The sample proportion of those who voted in 1998 and voted in 1996 election
+xtabs(~voted1996 + voted1998, data=p1DataMatched) %>% prop.table(margin=2)
+
+# The proportion of people who got a phonecall and voted in 1996 election
+xtabs(~voted1996 + GOTV_call, data=p1DataMatched) %>% prop.table(margin=2)
+
+
+# The proportion of people who got a phonecall and voted in 1998 election
+xtabs(~voted1998 + GOTV_call, data=p1DataMatched) %>% prop.table(margin=2)
+
+
+##### A large-sample 95% confidence interval for the difference in these two proportions:
+
+prop.test(voted1998 ~ GOTV_call, data = p1DataMatched)
+
+
+```
+
+After matching the data, all of the people came from the same range of years (19-96). Next the proportion of people that were registered with majority party and voted and who didn't get the call matched to 80% of both subsets. Similarly, the proportion of people who voted in 1996 election & voted and who didn't get the call matched to 71% of both subsets.
+
+### What do you conclude about the overall effect of the GOTV call on the likelihood of voting in the 1998 election?
+
+After matching the data to GOTV calls, confirming matching of the data, and bootstrapping I can say with 95% confidence (p value \< 0.05) that getting a GOTV call increase the chance of someone voting by 0.5%-14.1%.
+
+# Problem 2
+
+## Pt A
+
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=TRUE}
+p2Data = read.csv("solder.csv")
+
+# creating a box plot proving the size of the oppening infunces # of skipps 
+
+ggplot(data=p2Data) + geom_boxplot(aes(y=skips))+ facet_wrap(~Opening) + labs(title="Defects distibution vs Solder Opening Size", x="Solder Opening Size")
+
+# creating a box plot proving the size of the oppening infunces # of skipps 
+
+ggplot(data=p2Data) + geom_boxplot(aes(y=skips))+ facet_wrap(~Solder) + labs(title="Defects distibution vs Thikness of Alloy", x="Thikness of Alloy")
+
+
+```
+
+## Pt B
+
+```{r warning=FALSE, echo=FALSE, message=FALSE, include=TRUE}
+# creating a regression model
+solderRegression = lm(skips ~ Opening + Solder + Opening:Solder, data=p2Data)
+
+get_regression_table(solderRegression)
+
+### why is it when I make a regression model one of the cofounders is missing?
+### Similar in CH 15.5
+### this is because the large hole is the baseline that the rest of data 
+### factor also allows to change the baseline
+
+# making the confidance intervals of the regression models
+
+confidanceLm = confint(solderRegression, level =0.95)
+confidanceLm
+
+```
+
+## Pt C
+
+-   The baseline is having a Large Opening and a Thick alloy, represented by the intercept of having 0.393 skips
+
+-   The main effect of having a Medium Opening is an increase of skips by 2.4 compared to Having a Large Opening
+
+-   The main effect of having a Small Opening is an increase of skips by 5.1 compared to Having a Large Opening
+
+-   The main effect of having a Thin Alloy is an increase of skips by 2.3 compared to Having a Thick Alloy
+
+-   The main effect of having a Medium Opening and a Thin Alloy is an decrease of skips by 0.7 compared to Large Opening + Thick Alloy
+
+-   The main effect of having a Small Opening and a Thin Alloy is an increase of skips by 9.6 compared to Large Opening + Thick Alloy
+
+## Pt D
+
+Based on the confidence intervals and the estimated weights of each coefficient I would recommend sticking with Large Opening with Thick alloy, however I would recommend further testing with Medium Opening and Thin Alloy because according to the confidence interval it has potential to decrease the amount of skips (but also to increase it)
